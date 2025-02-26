@@ -1,0 +1,34 @@
+digraph BST {
+    node [fontname="Arial"];
+    16384 -> 7295 [label="L"];
+    7295 -> 2237 [label="L"];
+    nullL2237 [shape=point];
+    2237 -> nullL2237;
+    2237 -> 5339 [label="R"];
+    5339 -> 3986 [label="L"];
+    nullL3986 [shape=point];
+    3986 -> nullL3986;
+    nullR3986 [shape=point];
+    3986 -> nullR3986;
+    nullR5339 [shape=point];
+    5339 -> nullR5339;
+    7295 -> 7576 [label="R"];
+    nullL7576 [shape=point];
+    7576 -> nullL7576;
+    nullR7576 [shape=point];
+    7576 -> nullR7576;
+    16384 -> 24803 [label="R"];
+    24803 -> 17844 [label="L"];
+    nullL17844 [shape=point];
+    17844 -> nullL17844;
+    nullR17844 [shape=point];
+    17844 -> nullR17844;
+    24803 -> 27163 [label="R"];
+    27163 -> 26181 [label="L"];
+    nullL26181 [shape=point];
+    26181 -> nullL26181;
+    nullR26181 [shape=point];
+    26181 -> nullR26181;
+    nullR27163 [shape=point];
+    27163 -> nullR27163;
+}
