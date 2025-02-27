@@ -146,6 +146,39 @@ class Bst {
         return depth + _ipl(root->left, depth + 1) + _ipl(root->right, depth + 1);
     }
 
+    void _delete_right(Node *&subroot, int random_Node) 
+    {
+        if(!subroot)
+        {
+            return;
+        }
+
+        if(subroot->data < random_Node)
+        {
+            _delete_right(subroot->right, random_Node);
+        }
+        else if(subroot->data > random_Node)
+        {
+            _delete_right(subroot->left, random_Node);
+        }
+        else
+        {
+            if(!subroot->right)
+            {
+                _delete(subroot, random_Node);
+                return;
+            }
+            else
+            {
+                _delete_right(subroot->right, subroot->right->data);
+                _delete(subroot, random_Node);
+                return;
+            }
+
+        }
+        
+        
+    }
 public:
     Bst() { root = nullptr; }
     void insert(int x) { _insert(root, x); }
@@ -156,6 +189,16 @@ public:
         std::string dotContent = GraphvizBST::generateDot(root);
         GraphvizBST::saveDotFile(filename, dotContent);
     }
+
+    void delete_right(vector<int> *arr) {
+        
+        int size = arr->size();
+        int randomNode_place = rand() % size + 1;
+        int randomNode = arr->at(randomNode_place);
+        _delete_right(root, randomNode);
+    
+    }
+    
 
     /**
      * Computes the Internal Path Length (IPL) of a Binary Search Tree (BST).
@@ -192,6 +235,7 @@ bool unique_value(int *arr, int n, int x) {
     return true;
 }
 
+
 int main() {
     Bst tree64, tree128, tree256, tree512, tree1024, tree2048;
     int root = pow(2, 15) / 2;
@@ -218,21 +262,27 @@ int main() {
         tree64.insert(r);
         arr64.push_back(r);
     }
+  
 
     cout << "Internal Path Length: " << tree64.ipl() << endl;
     tree64.saveDotFile("bst64_snapshot.dot");
 
-    for( int i = 1; i < 128; i++) {
-        int r = rand() % max;
-        while (!unique_value(arr128.data(), arr128.size(), r)) {
-            r = rand() % max;
-        }
-        tree128.insert(r);
-        arr128.push_back(r);
-    }
+    tree64.delete_right(&arr64);
 
-    cout << "Internal Path Length: " << tree128.ipl() << endl;
-    tree128.saveDotFile("bst128_snapshot.dot");
+    cout << "Internal Path Length: " << tree64.ipl() << endl;
+    tree64.saveDotFile("bst64_D_snapshot.dot");
+
+    // for( int i = 1; i < 128; i++) {
+    //     int r = rand() % max;
+    //     while (!unique_value(arr128.data(), arr128.size(), r)) {
+    //         r = rand() % max;
+    //     }
+    //     tree128.insert(r);
+    //     arr128.push_back(r);
+    // }
+
+    // cout << "Internal Path Length: " << tree128.ipl() << endl;
+    // tree128.saveDotFile("bst128_snapshot.dot");
 
 
     // Bst tree2;
