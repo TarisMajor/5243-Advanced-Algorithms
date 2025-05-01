@@ -138,23 +138,96 @@ When you need a total, you:
 
 ---
 
-## 🧪 Example: Build and Use BIT
+## 🧪 Example: Build and Use BIT (Binary Indexed Tree)
 
-Let’s build a BIT for:  
+Let’s build a Binary Indexed Tree for the following array:
+
 ```
 arr = [3, 2, -1, 6, 5, 4, -3, 3]
 ```
 
-Steps:
-1. Create `bit[]` array of size `n+1` (with zeros)
-2. Loop over the array and use `update()` to fill `bit`
-
-Then you can:
-- Use `query(5)` to get sum of `arr[1]` to `arr[5]`
-- Use `update(3, 4)` to add `4` to `arr[3]`
+This array has `n = 8` elements.
 
 ---
 
+### 🔧 Step 1: Create the BIT Array
+
+- Create an array `bit[]` of size `n + 1` (index 0 is unused).
+- Initialize it with all zeros:
+
+```
+bit = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+```
+
+> ⚠️ BIT is 1-indexed: `bit[i]` stores information about a range of values in `arr[]`.
+
+---
+
+### 🔁 Step 2: Build the BIT Using `update()`
+
+For each element in the array, call the `update(index, value)` function.
+
+We loop through the array `arr[0]` to `arr[7]`, and for each `i`, we call:
+
+```
+update(i + 1, arr[i])
+```
+
+Why `i + 1`? Because the BIT is 1-indexed.
+
+The `update(idx, val)` function works like this (in pseudocode):
+
+```python
+def update(idx, val):
+    while idx <= n:
+        bit[idx] += val
+        idx += idx & -idx  # Move to parent
+```
+
+This updates the BIT with the value `val` at position `idx` and propagates the change to all relevant ancestors in the tree.
+
+---
+
+### 🔍 Step 3: Query the Prefix Sum with `query(index)`
+
+To get the prefix sum from `arr[0]` to `arr[index - 1]`, use:
+
+```python
+def query(idx):
+    result = 0
+    while idx > 0:
+        result += bit[idx]
+        idx -= idx & -idx  # Move to parent
+    return result
+```
+
+#### ✅ Example:
+
+To get the sum of `arr[1]` to `arr[5]` (i.e., `2 + (-1) + 6 + 5 + 4 = 16`), you call:
+
+```
+query(6)
+```
+
+This gives you the sum of the first 6 elements (because it's 1-indexed).
+
+---
+
+### ✏️ Step 4: Update an Element
+
+Suppose you want to add `4` to `arr[3]` (which is `-1` originally). You’d call:
+
+```
+update(4, 4)
+```
+
+This will:
+- Update `arr[3]` to `3`
+- Update the BIT to reflect this change
+
+Then `query(6)` would now return `20` instead of `16`.
+
+---
 ## ⏱️ Time Complexity
 
 | Operation | Time     |
