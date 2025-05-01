@@ -228,6 +228,68 @@ This will:
 Then `query(6)` would now return `20` instead of `16`.
 
 ---
+## 🌲 Visualizing a Binary Indexed Tree (Fenwick Tree)
+
+Given the array:
+
+```
+arr = [3, 2, -1, 6, 5, 4, -3, 3]
+```
+
+We build a **BIT** (1-indexed) to support efficient prefix sum queries.
+
+---
+
+### 🧠 BIT Index Responsibilities
+
+Each `bit[i]` stores the sum of a specific range of elements from `arr[]`:
+
+| Index | Binary | Covers Range     | bit[i] Value       |
+|-------|--------|------------------|--------------------|
+| 1     | 0001   | a[0]             | 3                  |
+| 2     | 0010   | a[1]             | 2                  |
+| 3     | 0011   | a[2]             | -1                 |
+| 4     | 0100   | a[0] to a[3]     | 3 + 2 - 1 + 6 = 10 |
+| 5     | 0101   | a[4]             | 5                  |
+| 6     | 0110   | a[4] to a[5]     | 5 + 4 = 9          |
+| 7     | 0111   | a[6]             | -3                 |
+| 8     | 1000   | a[0] to a[7]     | sum(arr) = 19      |
+
+> 📌 `bit[i]` stores the sum of elements ending at index `i` and going back `LSB(i)` elements, where `LSB(i)` is the least significant bit of `i`.
+
+---
+
+### 📊 BIT Array in ASCII
+
+```
+bit (1-indexed):
+
+   Index:     1     2     3     4     5     6     7     8
+   Content:  [3]  [2]  [-1]  [10]  [5]  [9]  [-3]  [19]
+              ↑    ↑     ↑     ↑     ↑     ↑     ↑     ↑
+            a[0] a[1]  a[2] a[0–3] a[4] a[4–5] a[6] a[0–7]
+```
+
+---
+
+### 🔁 How It Works
+
+- `update(i, val)` updates the BIT at index `i` and all relevant parent ranges.
+- `query(i)` gives the **sum from `arr[0]` to `arr[i-1]`** by walking up the BIT using `i -= i & -i`.
+
+---
+
+### ⏱️ Time & Space Complexity
+
+- `update()` and `query()` both run in **O(log n)**
+- Space used: **O(n)**
+
+This makes Fenwick Trees perfect for scenarios where you frequently need:
+- Prefix sums
+- Point updates
+- Efficient performance
+
+---
 ## ⏱️ Time Complexity
 
 | Operation | Time     |
