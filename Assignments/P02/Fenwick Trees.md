@@ -249,6 +249,16 @@ Then `query(6)` would now return `20` instead of `16`.
 - Slightly tricky to understand at first
 
 ---
+## ✅ BIT vs BST
+| Feature                     | BIT                  | BST                     |
+|----------------------------|----------------------|--------------------------|
+| Prefix sum queries         | ✅ Fast (O(log n))    | ❌ Slower (O(log n), more overhead) |
+| Point updates              | ✅ Fast (O(log n))    | ✅ Fast (O(log n))       |
+| Insert/delete any value    | ❌ Not supported      | ✅ Fully supported       |
+| Range queries (e.g., sums) | ✅ Easy               | ⚠️ Requires augmentation |
+| Memory usage               | ✅ Compact            | ❌ Higher (pointers, nodes) |
+| Order statistics           | ❌ Not supported      | ✅ With augmentation     |
+---
 
 ## 🧩 Summary
 
