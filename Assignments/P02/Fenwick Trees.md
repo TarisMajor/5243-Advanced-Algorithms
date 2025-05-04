@@ -99,9 +99,9 @@ Explanation:
 - `i & -i` gives the **LSB** — the jump size
 - You move to the **next responsible node**
 
-### 📊 Query Operation (Prefix Sum)
+## 📊 Prefix Sum Query in Fenwick Tree (Binary Indexed Tree)
 
-To get the **sum from 1 to i**:
+To get the **sum from index `1` to `i`** efficiently, use the following function:
 
 ```python
 def query(i):
@@ -112,9 +112,46 @@ def query(i):
     return res
 ```
 
-Explanation:
-- Collect values from all nodes that **cover part of the range**
-- Move backward by removing LSB
+### 🔍 Purpose
+
+The `query(i)` function computes the prefix sum:  
+`A[1] + A[2] + ... + A[i]` in **O(log n)** time using the precomputed partial sums in the `bit[]` array.
+
+---
+
+### ⚙️ How It Works
+
+Each `bit[k]` stores the sum of a specific range of the original array.  
+That range size is determined by the **Least Significant Bit (LSB)** of `k`:
+- `k & -k` gives the size of the range that `bit[k]` covers.
+
+At each step:
+1. Add the value of `bit[i]` to the result.
+2. Move to the previous contributing index by removing the LSB: `i -= (i & -i)`.
+
+---
+
+### 💡 Example: `query(6)`
+
+Assume we want to compute the prefix sum up to index `6`.
+
+Steps:
+| Step | i  | `bit[i]` (Range)    | Operation                    | Result (`res`) |
+|------|----|----------------------|-------------------------------|----------------|
+| 1    | 6  | `bit[6]` (A[5]+A[6]) | `res += bit[6]`               | res = `bit[6]` |
+| 2    | 4  | `bit[4]` (A[1]–A[4]) | `res += bit[4]`               | res += `bit[4]` |
+| 3    | 0  | –                    | Stop (loop ends)              | Final sum      |
+
+This adds together the **non-overlapping** segments `A[1–4]` and `A[5–6]`, giving the sum `A[1] + ... + A[6]`.
+
+---
+
+### 📌 Summary
+
+- `bit[i]` stores sums of power-of-two-sized blocks of the array.
+- The `query(i)` function walks **backwards** through these blocks to gather the total sum.
+- Each step removes the LSB of `i`, ensuring O(log n) time complexity.
+
 
 ---
 
