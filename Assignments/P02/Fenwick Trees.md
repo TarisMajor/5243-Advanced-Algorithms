@@ -95,6 +95,7 @@ def update(i, value):
 ```
 
 Explanation:
+- `n` is the length of the original array
 - `i & -i` gives the **LSB** — the jump size
 - You move to the **next responsible node**
 
