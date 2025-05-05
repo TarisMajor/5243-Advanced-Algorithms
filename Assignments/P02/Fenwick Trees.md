@@ -154,6 +154,8 @@ When you need a total, you:
 - Done in log time!
 
 ---
+[Visualgo Fenwick Tree Visualizer](https://visualgo.net/en/fenwicktree)
+---
 
 ### ⏱️ Time & Space Complexity
 
