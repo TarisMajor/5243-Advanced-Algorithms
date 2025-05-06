@@ -54,28 +54,6 @@ Let’s say we have an array of size `n`. The BIT is a **separate array** (let�
 Why `n+1`?
 > Because BITs use **1-based indexing** to simplify calculations.
 
----
-
-## 📐 BIT Structure - A Visual Idea
-
-Let’s say we have this array:
-
-```
-Index:   1   2   3   4   5   6   7   8
-Value:   3   2   -1  6   5   4   -3  3
-```
-
-In the BIT:
-- `bit[1]` stores info about index 1
-- `bit[2]` stores info about 1 to 2
-- `bit[4]` stores info about 1 to 4
-- `bit[8]` stores info about 1 to 8
-
-So it's like:
-```
-bit[i] stores sum of some range ending at i
-```
-
 How does BIT decide which range?
 👉 It depends on the **least significant bit** (LSB) of `i`.
 
@@ -138,6 +116,20 @@ This magic trick gives the **lowest set bit** in binary.
 For example:
 - `i = 6` → binary `110` → `i & -i = 10` → `2`
 - `i = 8` → binary `1000` → `i & -i = 1000` → `8`
+
+| Decimal | Positive (5-bit) | Negative (5-bit) |
+|---------|------------------|------------------|
+| 1       | 00001            | 11111            |
+| 2       | 00010            | 11110            |
+| 3       | 00011            | 11101            |
+| 4       | 00100            | 11100            |
+| 5       | 00101            | 11011            |
+| 6       | 00110            | 11010            |
+| 7       | 00111            | 11001            |
+| 8       | 01000            | 11000            |
+| 9       | 01001            | 10111            |
+| 10      | 01010            | 10110            |
+
 
 ---
 
